@@ -3,9 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddControllers();
 
+
+//carrega o env
 DotNetEnv.Env.Load();
 
+//carrega a variável de ambiente
 var connectionString =
     Environment.GetEnvironmentVariable("FARMACIA_CONNECTION");
 
@@ -16,7 +21,7 @@ builder.Services.AddDbContext<FarmaciaDbContext>(options =>
 Console.WriteLine("string de conexão: " + connectionString);
 
 var app = builder.Build();
-
+app.MapControllers();
 try
 {
     using var scope = app.Services.CreateScope();
