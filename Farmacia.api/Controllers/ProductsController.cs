@@ -26,4 +26,14 @@ public class ProductsController : ControllerBase
         var CreateProduct = await _repository.AddAsync(product);
         return Ok(CreateProduct);
     }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProducts(int id)
+    {
+        var deleted = await _repository.DeleteAsync(id);
+        if (!deleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
 }
