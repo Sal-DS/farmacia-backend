@@ -1,3 +1,5 @@
+using System.Xml.Schema;
+using Farmacia.api.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Farmacia.api.Controllers;
@@ -17,5 +19,11 @@ public class ProductsController : ControllerBase
     {
         var products = await _repository.GetAllAsync();
         return Ok(products);
+    }
+    [HttpPost]
+    public async Task<IActionResult> CreateProduct(Product product)
+    {
+        var CreateProduct = await _repository.AddAsync(product);
+        return Ok(CreateProduct);
     }
 }
