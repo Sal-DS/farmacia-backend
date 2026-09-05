@@ -20,6 +20,16 @@ public class ProductsController : ControllerBase
         var products = await _repository.GetAllAsync();
         return Ok(products);
     }
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var product = await _repository.GetByIdAsync(id);
+        if(product == null)
+        {
+            return NoContent();
+        }
+        return Ok(product);
+    }
     [HttpPost]
     public async Task<IActionResult> CreateProduct(Product product)
     {
@@ -35,5 +45,16 @@ public class ProductsController : ControllerBase
             return NotFound();
         }
         return NoContent();
+    }
+    [HttpPut]
+    public async Task<IActionResult> UpdateProducts(Product product)
+    {
+        var updated = await _repository.UpdateAsync(product);
+        if (!updated)
+        {
+            return NotFound();
+        }
+        await _repository.UpdateAsync(product);
+        return Ok(product);
     }
 }

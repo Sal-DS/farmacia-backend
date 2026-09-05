@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Farmacia.api.Data;
 using Farmacia.api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -32,10 +33,15 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    public async Task UpdateAsync(Product product)
+    public async Task<bool> UpdateAsync(Product product)
     {
-        _context.Products.Update(product);
+        var result = _context.Products.Update(product);
+        if(result is null)
+        {
+            return false;
+        }
         await _context.SaveChangesAsync();
+        return true;
     }
 
     public async Task<bool> DeleteAsync(int id)
