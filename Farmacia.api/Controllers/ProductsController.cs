@@ -9,10 +9,16 @@ namespace Farmacia.api.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly IProductRepository _repository;
+    private readonly ICategoryRepository _categoryRepository;
+    private readonly INameRepository _nameRepository;
 
-    public ProductsController(IProductRepository productRepository)
+    public ProductsController(IProductRepository productRepository
+    , ICategoryRepository categoryRepository
+    , INameRepository nameRepository)
     {
+        _categoryRepository = categoryRepository;
         _repository = productRepository;
+        _nameRepository = nameRepository;
     }
 
     [HttpGet]
@@ -46,6 +52,16 @@ public class ProductsController : ControllerBase
             CategoryId = dto.CategoryId
         };
 
+        var categoryExist = await _categoryRepository.ExistAsync(dto.CategoryId);
+        var nameExist = await _nameRepository.ExistName(dto.Name, dto.Manufacturer);
+        if (!categoryExist)
+        {
+            return BadRequest("Categoria inexistente");
+        }
+        if (nameExist)
+        {
+            return BadRequest("Já existe um medicamento com esse nome boy");
+        }
         var created = await _repository.AddAsync(product);
         var savedProduct = await _repository.GetByIdAsync(created.Id) ?? created;
         return CreatedAtAction(nameof(GetById), new { id = savedProduct.Id }, ToResponseDto(savedProduct));
@@ -78,7 +94,14 @@ public class ProductsController : ControllerBase
         product.Manufacturer = dto.Manufacturer;
         product.CategoryId = dto.CategoryId;
 
+        var existId = await _categoryRepository.ExistAsync(dto.CategoryId);
+        if (!existId)
+        {
+            return BadRequest("Categoria inválida");
+        }
+
         var updated = await _repository.UpdateAsync(product);
+
         if (!updated)
         {
             return NotFound();

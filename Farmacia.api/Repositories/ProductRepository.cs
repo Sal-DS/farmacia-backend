@@ -35,11 +35,6 @@ public class ProductRepository : IProductRepository
 
     public async Task<bool> UpdateAsync(Product product)
     {
-        var result = _context.Products.Update(product);
-        if(result is null)
-        {
-            return false;
-        }
         await _context.SaveChangesAsync();
         return true;
     }

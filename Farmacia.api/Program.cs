@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddProblemDetails();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<INameRepository, NameRepository>();
 builder.Services.AddControllers();
 
 
@@ -21,6 +24,7 @@ builder.Services.AddDbContext<FarmaciaDbContext>(options =>
 Console.WriteLine("string de conexão: " + connectionString);
 
 var app = builder.Build();
+app.UseExceptionHandler();
 app.MapControllers();
 try
 {

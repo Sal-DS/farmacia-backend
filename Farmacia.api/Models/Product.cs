@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Components;
 
 namespace Farmacia.api.Models
 {
@@ -19,7 +20,6 @@ namespace Farmacia.api.Models
 
     public int CategoryId { get; set; }
 
-    [JsonIgnore]
     public Category? Category { get; set; }
     }
 }
