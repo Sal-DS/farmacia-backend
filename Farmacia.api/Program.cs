@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
+// Permite o throw de exceptions
 builder.Services.AddProblemDetails();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<INameRepository, NameRepository>();
 builder.Services.AddControllers();
-
 
 //carrega o env
 DotNetEnv.Env.Load();

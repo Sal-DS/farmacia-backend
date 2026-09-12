@@ -6,6 +6,12 @@ namespace Farmacia.api.Controllers;
 [Route("api/bico-de-sapato")]
 public class BicoDeSapatoController : ControllerBase
 {
+    [HttpGet("erro")]
+    public IActionResult Error()
+    {
+        throw new Exception("Bico-de-sapato derrubou a API");
+    }
+
     [HttpGet]
     [Produces("text/plain")]
     public ContentResult Get()
@@ -35,9 +41,9 @@ public class BicoDeSapatoController : ControllerBase
                     ||                    ||
                     ||                    ||
                     ||                    ||
-                   /  \                  /  \
-                  /    \                /    \
-                 /      \              /      \
+                   /                        \
+                  /                          \
+                 /                            \
         """;
 
         return Content(art, "text/plain; charset=utf-8");
