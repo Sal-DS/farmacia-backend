@@ -9,6 +9,10 @@ public class CategoryRepository : ICategoryRepository
     {
         _dbcontext = db;
     }
+    public async Task<bool> HasProductAsync(int categoryId)
+    {
+        return await _dbcontext.Products.AnyAsync(p => p.CategoryId == categoryId);
+    }
     public async Task<bool> ExistAsync(int id)
     {
         return await _dbcontext.Categories.AnyAsync(c => c.Id == id);
