@@ -65,14 +65,17 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> DeleteCategory(int id)
     {
         var hasProducts = await repo.HasProductAsync(id);
+        
+        if (hasProducts)
+        {
+            return Conflict("Existem um ou mais produtos nessa categoria, exclua-os antes de excluí-la");
+        }
+
         var deleted = await repo.DeleteAsync(id);
+
         if (!deleted)
         {
             return NotFound();
-        }
-        else if (hasProducts)
-        {
-            return Conflict("Existem um ou mais produtos nessa categoria, exclua-os antes de excluí-la");
         }
 
         return NoContent();
