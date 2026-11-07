@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Farmacia.api.Data;
 using Farmacia.api.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 public class ProductRepository : IProductRepository
 {
@@ -50,5 +51,13 @@ public class ProductRepository : IProductRepository
         await _context.SaveChangesAsync();
         
         return true;
+    }
+    public async Task<IEnumerable<Product?>> SearchAsync(string name)
+    {
+        var product = await _context.Products.Include(p => p.Category)
+        .Where(p => p.Name.Contains(name))
+        .ToListAsync();
+        
+        return product;
     }
 }
