@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{baseUrl}}/api/products"
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "id": 15,
+      "name": "Dipirona Atualizada",
+      "description": "Analgésico e antitérmico",
+      "price": 14.90,
+      "manufacturer": "Medley",
+      "categoryId": 4
+    }
+order: 4000

@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/api/categories"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "name": "Analgésicos"
+    }
+order: 3000

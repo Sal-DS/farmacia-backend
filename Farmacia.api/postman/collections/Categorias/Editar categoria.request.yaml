@@ -1,0 +1,11 @@
+$kind: http-request
+url: "{{baseUrl}}/api/categories"
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+        "id": 5,
+        "name": "Antibiótico"
+    }
+order: 4000
