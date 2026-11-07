@@ -110,7 +110,16 @@ public class ProductsController : ControllerBase
         var savedProduct = await _repository.GetByIdAsync(product.Id) ?? product;
         return Ok(ToResponseDto(savedProduct));
     }
-
+    [HttpGet("{name}")]
+    public async Task<ActionResult<IEnumerable<ProductResponseDto>>> SearchAsync(string name)
+    {
+        var products = await _repository.SearchAsync(name);
+        if (products == null)
+        {
+            return NotFound();
+        }
+        return Ok(products.Select(ToResponseDto));
+    }
     private static ProductResponseDto ToResponseDto(Product product)
     {
         return new ProductResponseDto

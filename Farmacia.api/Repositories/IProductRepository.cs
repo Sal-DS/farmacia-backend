@@ -7,4 +7,5 @@ public interface IProductRepository
     Task<Product> AddAsync(Product product);
     Task<bool> UpdateAsync(Product product);
     Task<bool> DeleteAsync(int id);
+    Task<IEnumerable<Product?>> SearchAsync(string name);
 }
